@@ -6,7 +6,7 @@ on:
       - 'master'
 
 jobs:
-  test:
+  start-notify:
     runs-on: ubuntu-latest
     steps:
       - name: Notify start workflow
@@ -16,8 +16,7 @@ jobs:
             {
               "attachments": [
                 {
-                  "color": "good",
-                  "title": "deploy test message",
+                  "title": "デプロイを開始します",
                   "fields": [
                     {
                       "value": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|Actions> から承認してください",
@@ -33,9 +32,9 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
-  test2:
+  deploy:
     runs-on: ubuntu-latest
-    environment: test
+    environment: start-notify
     needs: test
     steps:
       - name: deploy
