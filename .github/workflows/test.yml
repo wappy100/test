@@ -8,8 +8,38 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    steps:
+      - name: Notify start workflow
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "good",
+                  "title": "deploy test message",
+                  "fields": [
+                    {
+                      "value": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|Actions> から承認してください",
+                      "short": false
+                    }
+                  ],
+                  "footer": "GitHub Actions",
+                  "footer_icon": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+  test2:
+    runs-on: ubuntu-latest
     environment: test
+    needs: test
     steps:
       - name: deploy
         run: echo 'test deploy...'
-      - run: echo 'test2'
+
+      - name: deploy2
+        run: echo 'test deploy2...'
