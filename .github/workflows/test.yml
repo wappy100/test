@@ -34,8 +34,8 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    environment: start-notify
-    needs: test
+    environment: test
+    needs: start-notify
     steps:
       - name: deploy
         run: echo 'test deploy...'
