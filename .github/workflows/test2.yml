@@ -1,0 +1,20 @@
+name: test2 deploy
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'foo/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: test
+    needs: start-notify
+    steps:
+      - name: deploy
+        run: echo 'test deploy...'
+
+      - name: deploy2
+        run: echo 'test deploy2...'
