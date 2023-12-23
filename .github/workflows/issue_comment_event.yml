@@ -1,0 +1,40 @@
+name: issue_comment_event
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  id-token: write
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  deploy:
+    name: Deploy pre
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/comment')
+    steps:
+      - name: Get PR html_url
+        id: get_pr_html_url
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            return pullRequest.html_url;
+
+      - name: echo html
+        run: |
+          echo ${{ fromJson(steps.get_pr_html_url.outputs.result) }}
+
+      - name: Get PR branch name and commit hash
+        run: |
+          BRANCH_NAME=$(jq --raw-output .issue.pull_request.head.ref <<< ${{ github.event.comment.body }})
+          COMMIT_HASH=$(jq --raw-output .issue.pull_request.head.sha <<< ${{ github.event.comment.body }})
+
+          echo "PR Branch Name: $BRANCH_NAME"
+          echo "Commit Hash: $COMMIT_HASH"
