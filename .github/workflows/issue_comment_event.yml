@@ -33,8 +33,8 @@ jobs:
 
       - name: Get PR branch name and commit hash
         run: |
-          BRANCH_NAME=$(jq --raw-output .issue.pull_request.head.ref <<< ${{ github.event.comment.body }})
-          COMMIT_HASH=$(jq --raw-output .issue.pull_request.head.sha <<< ${{ github.event.comment.body }})
+          BRANCH_NAME=$(jq --raw-output .pull_request.head.ref <<< ${{ github.event.issue.body }})
+          COMMIT_HASH=$(jq --raw-output .pull_request.head.sha <<< ${{ github.event.issue.body }})
 
           echo "PR Branch Name: $BRANCH_NAME"
           echo "Commit Hash: $COMMIT_HASH"
