@@ -33,8 +33,7 @@ jobs:
 
       - name: echo issue
         run: |
-          echo $GITHUB_HEAD_REF
-          echo ${{ github.event.issue.title }}
+          echo ${{ github.event.issue.number }}
 
       - name: Get PR branch name and commit hash
         run: |
