@@ -25,6 +25,7 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number,
             });
+            echo pullRequest
             return pullRequest.html_url;
 
       - name: echo html
