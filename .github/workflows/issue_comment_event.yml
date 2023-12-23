@@ -38,5 +38,4 @@ jobs:
 
       - name: Get PR branch name and commit hash
         run: |
-          DATA=$(jq --raw-output '.' <<< "${{ github.event.issue }}")
-          echo $DATA
+          echo "${{ toJson(github.event) }}"
