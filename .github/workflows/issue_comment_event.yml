@@ -31,10 +31,10 @@ jobs:
         run: |
           echo ${{ fromJson(steps.get_pr_html_url.outputs.result) }}
 
+      - name: echo issue
+        run: |
+          echo ${{ github.event.issue }}
+
       - name: Get PR branch name and commit hash
         run: |
-          BRANCH_NAME=$(jq --raw-output '.pull_request.head.ref' <<< "${{ github.event.comment.body }}")
-          COMMIT_HASH=$(jq --raw-output '.pull_request.head.sha' <<< "${{ github.event.comment.body }}")
-
-          echo "PR Branch Name: $BRANCH_NAME"
-          echo "Commit Hash: $COMMIT_HASH"
+          echo "Commit Hash: ${{ github.event.issue.commit_id }}"
