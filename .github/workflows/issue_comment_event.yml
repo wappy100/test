@@ -38,3 +38,7 @@ jobs:
       - name: Get PR branch name and commit hash
         run: |
           echo "${{ toJson(github) }}"
+
+      - name: github ref
+        run: |
+          echo "${{ github.ref }}"
